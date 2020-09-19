@@ -1,39 +1,38 @@
-// Exercise 1-15. Rewrite the temperature conversion program of Section 1.2 to
-// use a function for conversion
-
+// Exercise 1-14. Write a program to print a histogram of the frequencies of dif-
+// ferent characters in its input
 
 #include <stdio.h>
 
-#define LOWER 0   /*lower limit of table*/
-#define UPPER 300 /* upper limit */
-#define STEP 20   /* step size */
-
-// Converts temperature in Fahr to Celcius
-float fahrToCelsius(float);
-
-/* print Fahrenheit-Celsius table
-    for fahr = 0, 20, ..., 300; floating-point version with heading */
+#define EN_ALPHABET_LENGTH 52
 
 main()
 {
-    float fahr, celsius;
-    int lower, upper, step;
+    int c, i;
+    int nc[EN_ALPHABET_LENGTH];
 
-    lower = LOWER; /* lower limit of temperature table */
-    upper = UPPER; /* upper limit */
-    step = STEP;   /* step size */
+    i = 0;
 
-    fahr = lower;
-    printf("%3s\t%6s\n", "F", "C");
-    while (fahr <= upper)
+    for (i = 0; i < EN_ALPHABET_LENGTH; ++i)
+        nc[i] = 0;
+
+    while ((c = getchar()) != EOF)
     {
-        celsius = fahrToCelsius(fahr);
-        printf("%3.0f\t%6.1f\n", fahr, celsius);
-        fahr = fahr + step;
+        if (c >= 'A' && c <= 'Z')
+            ++nc[c - 'A'];
+        if (c >= 'a' && c <= 'z')
+            ++nc[c - 'a' + 26];
     }
-}
+    
+    // print histohram
+    for (i = 0; i < EN_ALPHABET_LENGTH; ++i)
+    {
+        int offset;
 
-float fahrToCelsius(float fahr)
-{
-    return (5.0 / 9.0) * (fahr - 32.0);
+        if (i >= 26)
+            offset = 6;
+        else
+            offset = 0;
+
+        printf("%c frequence: %d\n", 'A' + i + offset, nc[i]);
+    }
 }
